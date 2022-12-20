@@ -1,13 +1,12 @@
 package sa.aref.entity.order;
 
-import sa.aref.base.entity.BaseEntity;
-import sa.aref.entity.accounts.ClientAccount;
-import sa.aref.entity.accounts.ExpertAccount;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import sa.aref.entity.accounts.ClientAccount;
+import sa.aref.entity.accounts.ExpertAccount;
 import sa.aref.entity.duties.SubDuties;
 
 import java.time.LocalDateTime;
@@ -21,7 +20,10 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @ToString
-public class Order extends BaseEntity<Long> {
+public class Order {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime orderTime;
     @ManyToOne

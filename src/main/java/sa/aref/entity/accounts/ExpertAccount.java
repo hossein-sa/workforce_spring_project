@@ -6,7 +6,10 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-public class ExpertAccount extends BaseEntity<Long> {
+public class ExpertAccount{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String firstName;
     private String lastName;
     @Enumerated(EnumType.STRING)

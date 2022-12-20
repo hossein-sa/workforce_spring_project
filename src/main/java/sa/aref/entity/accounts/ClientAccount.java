@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import sa.aref.base.entity.BaseEntity;
 
 import java.time.LocalDateTime;
 
@@ -14,7 +13,10 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @ToString
-public class ClientAccount extends BaseEntity<Long> {
+public class ClientAccount{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String firstName;
     private String lastName;
     @Enumerated(EnumType.STRING)

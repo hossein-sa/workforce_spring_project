@@ -1,12 +1,13 @@
 package sa.aref.entity.duties;
 
-import sa.aref.base.entity.BaseEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 import java.util.Set;
 @Entity
-public class MainDuties extends BaseEntity<Long> {
+public class MainDuties {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
     @OneToMany(mappedBy = "mainDuties")
     private Set<SubDuties> duties;
