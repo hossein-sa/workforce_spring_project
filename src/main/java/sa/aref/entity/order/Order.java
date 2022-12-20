@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import sa.aref.entity.duties.SubDuties;
 
 import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
@@ -45,5 +46,7 @@ public class Order extends BaseEntity<Long> {
 
     private String address;
     private String description;
+    @ManyToOne
+    private SubDuties duty;
 
 }

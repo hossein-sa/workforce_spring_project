@@ -1,12 +1,14 @@
 package sa.aref.repository.order;
 
-import sa.aref.base.repository.BaseRepository;
-import sa.aref.entity.duties.MainDuties;
-import sa.aref.entity.duties.SubDuties;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import sa.aref.entity.order.Order;
 
 import java.util.List;
 
-public interface OrderRepository extends BaseRepository<Order,Long>{
-    List<SubDuties> showSubDuties(MainDuties mainDuties);
+@Repository
+
+public interface OrderRepository extends JpaRepository<Order, Long> {
+
+    List<Order> findAll();
 }

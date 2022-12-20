@@ -26,4 +26,5 @@ public class ClientAccount extends BaseEntity<Long> {
     private String password;
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime registerDate;
+    private Long balance;
 }

@@ -19,5 +19,6 @@ public class ExpertAccount extends BaseEntity<Long> {
     private String password;
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime registerDate;
+    private Long balance;
 
 }
