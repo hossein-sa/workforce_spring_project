@@ -21,4 +21,8 @@ public class SubDutyService {
     public List<SubDuties> findByMainDutiesId(Long id) {
         return subDutyRepository.findByMainDutiesId(id);
     }
+
+    public void changeDutyPrice(Long subDutyId, Double price) {
+        subDutyRepository.changeDutyPrice(subDutyId, price);
+    }
 }
