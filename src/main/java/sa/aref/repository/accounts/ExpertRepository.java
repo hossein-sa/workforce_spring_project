@@ -8,11 +8,11 @@ import sa.aref.entity.accounts.ExpertAccount;
 
 @Repository
 public interface ExpertRepository extends JpaRepository<ExpertAccount, Long> {
-@Modifying
-@Query("""
-update ExpertAccount e
-set e.password = :password
-where e.id = :id
-""")
-    void changePassword(Long id,String password);
+    @Modifying
+    @Query("""
+            update ExpertAccount e
+            set e.password = :password
+            where e.id = :id
+            """)
+    void changePassword(Long id, String password);
 }
