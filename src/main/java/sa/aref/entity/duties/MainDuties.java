@@ -3,6 +3,7 @@ package sa.aref.entity.duties;
 import jakarta.persistence.*;
 
 import java.util.Set;
+
 @Entity
 public class MainDuties {
     @Id

@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class SubDuties{
+public class SubDuties {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
