@@ -11,4 +11,7 @@ public class MainDutyService {
     public MainDutyService(MainDutyRepository mainDutyRepository) {
         this.mainDutyRepository = mainDutyRepository;
     }
+    public void addMainDuty(MainDuties mainDuty) {
+        mainDutyRepository.save(mainDuty);
+    }
 }
