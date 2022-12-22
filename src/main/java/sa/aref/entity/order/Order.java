@@ -8,6 +8,7 @@ import lombok.ToString;
 import sa.aref.entity.accounts.ClientAccount;
 import sa.aref.entity.accounts.ExpertAccount;
 import sa.aref.entity.duties.SubDuties;
+import sa.aref.entity.feedback.FeedBack;
 
 import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
@@ -50,5 +51,8 @@ public class Order {
     private String description;
     @ManyToOne
     private SubDuties duty;
+    @ManyToOne
+    @JoinColumn(name = "feed_back_id")
+    private FeedBack feedBack;
 
 }
