@@ -25,4 +25,5 @@ public class SubDutyService {
     public void changeDutyPrice(Long subDutyId, Double price) {
         subDutyRepository.changeDutyPrice(subDutyId, price);
     }
+
 }

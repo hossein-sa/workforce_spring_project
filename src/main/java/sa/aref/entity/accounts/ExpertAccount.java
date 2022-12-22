@@ -12,8 +12,6 @@ public class ExpertAccount {
     private Long id;
     private String firstName;
     private String lastName;
-    @Enumerated(EnumType.STRING)
-    private Gender gender;
     @Column(unique = true, nullable = false)
     private String nationalCode;
     private String email;

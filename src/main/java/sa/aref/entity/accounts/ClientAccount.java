@@ -21,7 +21,6 @@ public class ClientAccount {
     private String firstName;
     private String lastName;
     @Enumerated(EnumType.STRING)
-    private Gender gender;
     @Column(unique = true, nullable = false)
     private String nationalCode;
     @Column(unique = true, nullable = false)

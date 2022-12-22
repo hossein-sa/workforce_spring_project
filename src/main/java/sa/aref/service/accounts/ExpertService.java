@@ -2,7 +2,10 @@ package sa.aref.service.accounts;
 
 import org.springframework.stereotype.Service;
 import sa.aref.entity.accounts.ExpertAccount;
+import sa.aref.entity.order.Order;
 import sa.aref.repository.accounts.ExpertRepository;
+
+import java.util.List;
 
 @Service
 public class ExpertService {
@@ -18,6 +21,10 @@ public class ExpertService {
 
     public void changePassword(Long id, String password) {
         expertRepository.changePassword(id, password);
+    }
+
+    public List<Order> findByExpertId(Long expertId) {
+        return expertRepository.findByExpertId(expertId);
     }
 
 }
