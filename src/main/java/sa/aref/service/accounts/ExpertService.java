@@ -15,4 +15,9 @@ public class ExpertService {
     public ExpertAccount registerExpert(ExpertAccount expert) {
         return expertRepository.save(expert);
     }
+
+    public void changePassword(Long id, String password) {
+        expertRepository.changePassword(id, password);
+    }
+
 }
