@@ -2,10 +2,18 @@ package sa.aref.entity.accounts;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class ExpertAccount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
