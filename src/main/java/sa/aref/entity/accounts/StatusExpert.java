@@ -1,7 +1,7 @@
 package sa.aref.entity.accounts;
 
 public enum StatusExpert {
-    NEW,
+    SUSPEND,
     PENDING,
     APPROVE
 }
