@@ -17,7 +17,7 @@ public interface ClientRepository extends JpaRepository<ClientAccount, Long> {
             set c.password = :password
             where c.id = :id
             """)
-    void changePassword(Long id, String password);
+    void changePassword(Integer id, String password);
 
 
 

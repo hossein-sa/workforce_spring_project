@@ -10,16 +10,12 @@ import sa.aref.entity.order.Order;
 import java.util.List;
 
 @Repository
-public interface ExpertRepository extends JpaRepository<ExpertAccount, Long> {
+public interface ExpertRepository extends JpaRepository<ExpertAccount, Integer> {
     @Modifying
     @Query("""
             update ExpertAccount e
             set e.password = :password
             where e.id = :id
             """)
-    void changePassword(Long id, String password);
-    @Query("""
-select o from Order as o where o.expertAccounts = :expertId
-""")
-    List<Order> findByExpertId(Long expertId);
+    void changePassword(Integer id, String password);
 }
