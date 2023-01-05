@@ -16,7 +16,7 @@ public class ClientService {
         return clientRepository.save(client);
     }
 
-    public void changePassword(Long id, String password) {
+    public void changePassword(Integer id, String password) {
         clientRepository.changePassword(id, password);
     }
 

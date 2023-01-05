@@ -19,12 +19,9 @@ public class ExpertService {
         return expertRepository.save(expert);
     }
 
-    public void changePassword(Long id, String password) {
+    public void changePassword(Integer id, String password) {
         expertRepository.changePassword(id, password);
     }
 
-    public List<Order> findByExpertId(Long expertId) {
-        return expertRepository.findByExpertId(expertId);
-    }
 
 }
