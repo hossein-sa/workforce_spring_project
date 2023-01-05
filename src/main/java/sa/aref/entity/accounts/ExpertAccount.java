@@ -2,34 +2,25 @@ package sa.aref.entity.accounts;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import sa.aref.entity.duties.SubDuties;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class ExpertAccount {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String firstName;
-    private String lastName;
-    @Column(unique = true, nullable = false)
-    private String nationalCode;
-    private String email;
+@Builder
+public class ExpertAccount extends User {
+
     @Enumerated(EnumType.STRING)
     private StatusExpert status;
-    @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$",
-            message = "password must contain at least  1 uppercase, 1 lowercase and 1 digit")
-    private String password;
-    @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime registerDate;
-    private Long balance;
-
+    private int doneTaskCount;
+    private int stars;
+    @ManyToMany(mappedBy = "expertAccounts")
+    private Set<SubDuties> subDuties;
 }
