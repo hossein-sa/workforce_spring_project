@@ -1,17 +1,12 @@
 package sa.aref.entity.order;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import sa.aref.entity.accounts.ClientAccount;
-import sa.aref.entity.accounts.ExpertAccount;
 import sa.aref.entity.duties.SubDuties;
-import sa.aref.entity.feedback.FeedBack;
+import sa.aref.entity.offer.Offer;
 
 import java.time.LocalDateTime;
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
@@ -20,39 +15,34 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString
+@Builder
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime orderTime;
+    private Integer id;
+    private LocalDateTime dutyStartTime;
+    private LocalDateTime dutyEndTime;
+    private LocalDateTime dutyRequestTime;
     @ManyToOne
     @JoinColumn(name = "client_id")
-    private ClientAccount client;
-
-    @ManyToOne
-    @JoinColumn(name = "selected_expert_id")
-    private ExpertAccount selectedExpert;
-
-
-    @ToString.Exclude
-    @ManyToMany
-    @JoinTable(name = "order_expert",
-            joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "expert_id"))
-    private Set<ExpertAccount> expertAccounts = new LinkedHashSet<>();
+    private ClientAccount clientAccount;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "order_status", length = 20)
+    @Column(name = "order_status")
     private OrderStatus orderStatus;
-
     private String address;
     private String description;
     @ManyToOne
-    private SubDuties duty;
-    @ManyToOne
-    @JoinColumn(name = "feed_back_id")
-    private FeedBack feedBack;
+    private SubDuties subDuties;
+    private Integer rate;
+    private String comment;
+    @OneToMany(fetch = FetchType.LAZY)
+    @ToString.Exclude
+    private Set<Offer> offers;
+    @OneToOne
+    @JoinColumn(name = "selected_offer_id")
+    private Offer selectedOffer;
 
 }
