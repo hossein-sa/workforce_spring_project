@@ -11,11 +11,11 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class MainDuties {
+public class MainDuty {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    @OneToMany(mappedBy = "mainDuties")
-    private Set<SubDuties> subDuties;
+    @OneToMany(mappedBy = "mainDuty")
+    private Set<SubDuty> subDuties;
 }
