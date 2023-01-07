@@ -14,8 +14,13 @@ public class SubDutyService {
         this.subDutyRepository = subDutyRepository;
     }
 
-    public void addSubDuty(SubDuties subDuty) {
-        subDutyRepository.save(subDuty);
+    public boolean addSubDuty(SubDuties subDuty) {
+        try {
+            subDutyRepository.save(subDuty);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public List<SubDuties> findByMainDutiesId(Long id) {
