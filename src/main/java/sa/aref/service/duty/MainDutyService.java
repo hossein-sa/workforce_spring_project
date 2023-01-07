@@ -1,7 +1,7 @@
 package sa.aref.service.duty;
 
 import org.springframework.stereotype.Service;
-import sa.aref.entity.duties.MainDuty;
+import sa.aref.entity.duties.MainDuties;
 import sa.aref.repository.duty.MainDutyRepository;
 
 import java.util.List;
@@ -14,7 +14,7 @@ public class MainDutyService {
         this.mainDutyRepository = mainDutyRepository;
     }
 
-    public boolean addMainDuty(MainDuty mainDuty) {
+    public boolean addMainDuty(MainDuties mainDuty) {
         try{
             mainDutyRepository.save(mainDuty);
             return true;
@@ -23,7 +23,7 @@ public class MainDutyService {
         }
     }
 
-    public List<MainDuty> getMainDuties() {
+    public List<MainDuties> getMainDuties() {
         return mainDutyRepository.findAll();
     }
 

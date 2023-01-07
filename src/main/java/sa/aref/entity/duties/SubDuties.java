@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import sa.aref.entity.accounts.ExpertAccount;
 
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
@@ -12,7 +13,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SubDuty {
+public class SubDuties {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -21,7 +22,7 @@ public class SubDuty {
     private Long price;
     private String description;
     @ManyToOne
-    private MainDuty mainDuty;
+    private MainDuties mainDuties;
 
 
     @ManyToMany
