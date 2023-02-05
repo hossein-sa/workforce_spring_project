@@ -1,4 +1,4 @@
-package sa.aref.controller;
+package sa.aref.controller.duties;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
