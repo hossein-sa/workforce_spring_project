@@ -2,11 +2,15 @@ package sa.aref.entity.accounts;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @MappedSuperclass
-public class User {
+@Getter
+@Setter
+public abstract class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -21,4 +25,16 @@ public class User {
     private LocalDateTime registerDateTime;
     private Long balance;
 
+    public User() {
+    }
+
+    public User(Integer id, String firstname, String lastname, String email, String password) {
+        this.id = id;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.password = password;
+        this.registerDateTime = LocalDateTime.now();
+        this.balance = 0L;
+    }
 }

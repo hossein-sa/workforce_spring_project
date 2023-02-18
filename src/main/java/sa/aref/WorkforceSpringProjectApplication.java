@@ -2,7 +2,6 @@ package sa.aref;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import sa.aref.entity.accounts.ExpertAccount;
 
 @SpringBootApplication
 public class WorkforceSpringProjectApplication {

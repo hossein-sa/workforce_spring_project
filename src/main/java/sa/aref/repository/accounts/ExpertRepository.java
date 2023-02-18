@@ -5,9 +5,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import sa.aref.entity.accounts.ExpertAccount;
-import sa.aref.entity.order.Order;
-
-import java.util.List;
 
 @Repository
 public interface ExpertRepository extends JpaRepository<ExpertAccount, Integer> {

@@ -1,5 +1,6 @@
 package sa.aref.entity.duties;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,6 +17,7 @@ public class MainDuties {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    @OneToMany(mappedBy = "mainDuties")
+    @JsonIgnore
+    @OneToMany(mappedBy = "mainDuties",fetch = FetchType.LAZY)
     private Set<SubDuties> subDuties;
 }

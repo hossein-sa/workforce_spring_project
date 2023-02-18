@@ -5,9 +5,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import sa.aref.entity.accounts.ClientAccount;
-import sa.aref.entity.order.Order;
-
-import java.util.List;
 
 @Repository
 public interface ClientRepository extends JpaRepository<ClientAccount, Long> {
@@ -19,7 +16,7 @@ public interface ClientRepository extends JpaRepository<ClientAccount, Long> {
             """)
     void changePassword(Integer id, String password);
 
-
+    boolean existsByEmail(String email);
 
 
 }

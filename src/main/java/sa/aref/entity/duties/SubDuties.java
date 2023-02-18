@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import sa.aref.entity.accounts.ExpertAccount;
 
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
@@ -21,9 +20,8 @@ public class SubDuties {
     private String name;
     private Long price;
     private String description;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private MainDuties mainDuties;
-
 
     @ManyToMany
     private Set<ExpertAccount> expertAccounts;

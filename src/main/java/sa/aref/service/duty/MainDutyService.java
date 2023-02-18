@@ -2,9 +2,11 @@ package sa.aref.service.duty;
 
 import org.springframework.stereotype.Service;
 import sa.aref.entity.duties.MainDuties;
+import sa.aref.exception.CustomExceptionIsExist;
 import sa.aref.repository.duty.MainDutyRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MainDutyService {
@@ -15,10 +17,10 @@ public class MainDutyService {
     }
 
     public boolean addMainDuty(MainDuties mainDuty) {
-        try{
+        try {
             mainDutyRepository.save(mainDuty);
             return true;
-        }catch (Exception e){
+        } catch (CustomExceptionIsExist e) {
             return false;
         }
     }
@@ -27,4 +29,15 @@ public class MainDutyService {
         return mainDutyRepository.findAll();
     }
 
+    public Optional<MainDuties> findById(int id) {
+        return mainDutyRepository.findById(id);
+    }
+
+    public Optional<MainDuties> findByName(String name) {
+        return mainDutyRepository.findByName(name);
+    }
+
+    public boolean existsByName(String name) {
+        return mainDutyRepository.existsByName(name);
+    }
 }
