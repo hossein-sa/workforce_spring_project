@@ -15,4 +15,5 @@ public interface ExpertRepository extends JpaRepository<ExpertAccount, Integer> 
             where e.id = :id
             """)
     void changePassword(Integer id, String password);
+
 }

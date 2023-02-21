@@ -17,9 +17,9 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-
 public class ExpertAccount extends User {
 
+    // Existing instance variables
     @Enumerated(EnumType.STRING)
     private StatusExpert status;
     private int doneTaskCount;
@@ -27,19 +27,24 @@ public class ExpertAccount extends User {
     @ManyToMany(mappedBy = "expertAccounts")
     private Set<SubDuties> subDuties;
 
-    public ExpertAccount(StatusExpert status, int doneTaskCount, int stars, Set<SubDuties> subDuties) {
+    // New instance variable for profile photo
+    private byte[] profilePhoto;
+
+    public ExpertAccount(StatusExpert status, int doneTaskCount, int stars, Set<SubDuties> subDuties, byte[] profilePhoto) {
         this.status = status;
         this.doneTaskCount = doneTaskCount;
         this.stars = stars;
         this.subDuties = subDuties;
+        this.profilePhoto = profilePhoto;
     }
 
     @Builder
-    public ExpertAccount(Integer id, String firstname, String lastname, String email, String password, LocalDateTime registerDateTime, StatusExpert status, int doneTaskCount, int stars, Set<SubDuties> subDuties) {
+    public ExpertAccount(Integer id, String firstname, String lastname, String email, String password, LocalDateTime registerDateTime, StatusExpert status, int doneTaskCount, int stars, Set<SubDuties> subDuties, byte[] profilePhoto) {
         super(id, firstname, lastname, email, password);
         this.status = status;
         this.doneTaskCount = doneTaskCount;
         this.stars = stars;
         this.subDuties = subDuties;
+        this.profilePhoto = profilePhoto;
     }
 }
