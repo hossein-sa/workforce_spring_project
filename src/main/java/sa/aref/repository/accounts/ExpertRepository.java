@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import sa.aref.entity.accounts.ExpertAccount;
 
+import java.util.Optional;
+
 @Repository
 public interface ExpertRepository extends JpaRepository<ExpertAccount, Integer> {
     @Modifying
@@ -17,6 +19,8 @@ public interface ExpertRepository extends JpaRepository<ExpertAccount, Integer> 
     void changePassword(Integer id, String password);
 
     boolean existsByEmail(String email);
+
+    Optional<ExpertAccount> findByEmail(String email);
 
 
 }

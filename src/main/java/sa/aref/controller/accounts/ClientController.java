@@ -3,9 +3,12 @@ package sa.aref.controller.accounts;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import sa.aref.dto.ChangeClientPasswordDto;
 import sa.aref.dto.ClientDto;
 import sa.aref.entity.accounts.ClientAccount;
+import sa.aref.exception.CustomExceptionInvalid;
 import sa.aref.exception.CustomExceptionIsExist;
+import sa.aref.exception.CustomExceptionNotFound;
 import sa.aref.service.accounts.ClientService;
 
 @RestController
@@ -34,11 +37,16 @@ public class ClientController {
         }
     }
 
-    @PutMapping("/{id}/password")
-    public ResponseEntity<String> changePassword(@PathVariable("id") Integer clientId,
-                                                 @RequestBody String newPassword) {
-        clientService.changePassword(clientId, newPassword);
-        return ResponseEntity.ok("Password updated successfully");
+    @PutMapping("/change-password")
+    public ResponseEntity<String> changePassword(@RequestBody ChangeClientPasswordDto changeClientPasswordDto) {
+        try {
+            clientService.changePassword((int) changeClientPasswordDto.getClientId(), changeClientPasswordDto.getCurrentPassword(), changeClientPasswordDto.getNewPassword());
+            return ResponseEntity.ok("Password changed successfully");
+        } catch (CustomExceptionNotFound | CustomExceptionInvalid e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
 }

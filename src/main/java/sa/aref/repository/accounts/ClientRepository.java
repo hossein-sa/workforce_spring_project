@@ -13,11 +13,6 @@ import java.util.Optional;
 public interface ClientRepository extends JpaRepository<ClientAccount, Long> {
     Optional<ClientAccount> findByEmail(String email);
 
-    @Modifying
-    @Query("UPDATE ClientAccount c SET c.password = :password WHERE c.id = :clientId")
-    void updatePasswordById(@Param("clientId") Integer clientId, @Param("password") String password);
-
-
     boolean existsByEmail(String email);
 
 

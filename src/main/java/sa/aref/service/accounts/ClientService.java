@@ -3,6 +3,7 @@ package sa.aref.service.accounts;
 import org.springframework.stereotype.Service;
 import sa.aref.entity.accounts.ClientAccount;
 import sa.aref.entity.verification.VerificationToken;
+import sa.aref.exception.CustomExceptionInvalid;
 import sa.aref.exception.CustomExceptionIsExist;
 import sa.aref.exception.CustomExceptionNotFound;
 import sa.aref.repository.accounts.ClientRepository;
@@ -23,7 +24,6 @@ public class ClientService {
     private final VerificationTokenRepository verificationTokenRepository;
     private final VerificationEmailService verificationEmailService;
     private static final Logger logger = LogManager.getLogger(ClientService.class);
-
 
 
     public ClientService(ClientRepository clientRepository, VerificationTokenRepository verificationTokenRepository, VerificationEmailService verificationEmailService) {
@@ -51,16 +51,17 @@ public class ClientService {
         // Send a verification email
         verificationEmailService.sendVerificationEmail(clientAccount.getEmail(), token);
     }
-    public void changePassword(Integer clientId, String newPassword) {
-        Optional<ClientAccount> optionalClientAccount = clientRepository.findById(Long.valueOf(clientId));
-        if (optionalClientAccount.isPresent()) {
-            ClientAccount clientAccount = optionalClientAccount.get();
-            clientAccount.setPassword(newPassword);
-            clientRepository.save(clientAccount);
-            logger.info("Password updated for client with ID: {}", clientId);
-        } else {
-            throw new CustomExceptionNotFound("Client not found with ID: " + clientId);
+
+    public void changePassword(int clientId, String currentPassword, String newPassword) throws CustomExceptionNotFound, CustomExceptionInvalid {
+        ClientAccount client = clientRepository.findById((long) clientId)
+                .orElseThrow(() -> new CustomExceptionNotFound("Client not found"));
+
+        if (!client.getPassword().equals(currentPassword)) {
+            throw new CustomExceptionInvalid("Current password is incorrect");
         }
+
+        client.setPassword(newPassword);
+        clientRepository.save(client);
     }
 
 }

@@ -15,7 +15,7 @@ public abstract class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String firstname;
-    private String lastname;
+    private String lastName;
     @Column(unique = true, nullable = false)
     private String email;
     @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$",
@@ -31,10 +31,10 @@ public abstract class User {
     public User() {
     }
 
-    public User(Integer id, String firstname, String lastname, String email, String password) {
+    public User(Integer id, String firstname, String lastName, String email, String password) {
         this.id = id;
         this.firstname = firstname;
-        this.lastname = lastname;
+        this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.registerDateTime = LocalDateTime.now();

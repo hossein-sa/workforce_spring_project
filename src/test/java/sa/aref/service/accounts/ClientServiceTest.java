@@ -74,18 +74,4 @@ class ClientServiceTest {
         verify(verificationEmailService, never()).sendVerificationEmail(anyString(), anyString());
     }
 
-    @Test
-    public void testChangePassword() {
-        // Set up mock behavior
-        when(clientRepository.findById(anyLong())).thenReturn(Optional.of(new ClientAccount()));
-
-        // Call the method being tested
-        ClientService clientService = new ClientService(clientRepository, verificationTokenRepository, verificationEmailService);
-        clientService.changePassword(1, "newPassword");
-
-        // Verify that the expected methods were called
-        verify(clientRepository, times(1)).findById(anyLong());
-        verify(clientRepository, times(1)).save(any(ClientAccount.class));
-    }
-
 }

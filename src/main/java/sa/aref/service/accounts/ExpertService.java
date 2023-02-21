@@ -1,7 +1,9 @@
 package sa.aref.service.accounts;
 
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import sa.aref.entity.accounts.ExpertAccount;
+import sa.aref.exception.CustomExceptionInvalid;
 import sa.aref.exception.CustomExceptionIsExist;
 import sa.aref.exception.CustomExceptionNotFound;
 import sa.aref.repository.accounts.ExpertRepository;
@@ -19,14 +21,26 @@ public class ExpertService {
         this.expertRepository = expertRepository;
     }
 
-    public void register(ExpertAccount expertAccount) {
-        if (expertRepository.existsByEmail(expertAccount.getEmail()))
-            throw new CustomExceptionIsExist("This email account is exist");
+    @Transactional
+    public void register(ExpertAccount expertAccount) throws CustomExceptionIsExist {
+        if(expertRepository.findByEmail(expertAccount.getEmail()).isPresent()) {
+            throw new CustomExceptionIsExist("Email already exists");
+        }
+
         expertRepository.save(expertAccount);
     }
 
-    public void changePassword(Integer id, String password) {
-        expertRepository.changePassword(id, password);
+
+    public void changePassword(int expertId, String currentPassword, String newPassword) throws CustomExceptionNotFound, CustomExceptionInvalid {
+        ExpertAccount expertAccount = expertRepository.findById(expertId)
+                .orElseThrow(() -> new CustomExceptionNotFound("Expert not found"));
+
+        if (!expertAccount.getPassword().equals(currentPassword)) {
+            throw new CustomExceptionInvalid("Current password is invalid");
+        }
+
+        expertAccount.setPassword(newPassword);
+        expertRepository.save(expertAccount);
     }
 
     public void setProfilePhoto(Integer id, byte[] photoBytes) throws IOException {
