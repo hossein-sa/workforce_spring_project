@@ -23,7 +23,7 @@ public class ExpertAccount extends User {
     @Enumerated(EnumType.STRING)
     private StatusExpert status;
     private int doneTaskCount;
-    private int stars;
+    private int stars = 0;
     @ManyToMany(mappedBy = "expertAccounts")
     private Set<SubDuties> subDuties;
 

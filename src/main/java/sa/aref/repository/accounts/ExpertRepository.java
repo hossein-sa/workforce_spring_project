@@ -16,4 +16,7 @@ public interface ExpertRepository extends JpaRepository<ExpertAccount, Integer> 
             """)
     void changePassword(Integer id, String password);
 
+    boolean existsByEmail(String email);
+
+
 }
