@@ -24,6 +24,9 @@ public abstract class User {
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime registerDateTime;
     private Long balance;
+//    @Column(name = "verification_token")
+//    private String emailVerificationToken;
+    // other fields and mappings...
 
     public User() {
     }
