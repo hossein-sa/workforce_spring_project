@@ -2,6 +2,7 @@ package sa.aref.service.order;
 
 import org.springframework.stereotype.Service;
 import sa.aref.entity.order.Order;
+import sa.aref.entity.order.OrderStatus;
 import sa.aref.exception.CustomExceptionNotFound;
 import sa.aref.repository.order.OrderRepository;
 
@@ -50,6 +51,11 @@ public class OrderService {
 
     public void deleteOrderById(int id) {
         orderRepository.deleteById(id);
+    }
+
+    // Method for changing order status
+    public void updateOrderStatus(Integer orderId, OrderStatus orderStatus) {
+        orderRepository.updateOrderStatus(orderId, orderStatus);
     }
 
 

@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sa.aref.entity.order.Order;
+import sa.aref.entity.order.OrderStatus;
 import sa.aref.service.order.OrderService;
 
 import java.util.List;
@@ -47,6 +48,13 @@ public class OrderController {
     @DeleteMapping("/{id}")
     public void deleteOrderById(@PathVariable int id) {
         orderService.deleteOrderById(id);
+    }
+
+    // Update order status
+    @PutMapping("/{id}/status")
+    public ResponseEntity<String> updateOrderStatus(@PathVariable Integer id, @RequestBody OrderStatus orderStatus) {
+        orderService.updateOrderStatus(id, orderStatus);
+        return ResponseEntity.ok("Order status updated successfully.");
     }
 }
 
