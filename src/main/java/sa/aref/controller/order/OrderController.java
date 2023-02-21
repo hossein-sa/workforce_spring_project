@@ -33,6 +33,16 @@ public class OrderController {
     public Order saveOrder(@RequestBody Order order) {
         return orderService.saveOrder(order);
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<Order> updateOrder(@PathVariable int id, @RequestBody Order order) {
+        Optional<Order> existingOrder = orderService.getOrderById(id);
+        if (existingOrder.isPresent()) {
+            order.setId(id);
+            return new ResponseEntity<>(orderService.updateOrder(order), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 
     @DeleteMapping("/{id}")
     public void deleteOrderById(@PathVariable int id) {
