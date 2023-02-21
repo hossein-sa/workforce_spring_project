@@ -29,7 +29,6 @@ public class ExpertAccount extends User {
 
     // New instance variable for profile photo
     private byte[] profilePhoto;
-
     public ExpertAccount(StatusExpert status, int doneTaskCount, int stars, Set<SubDuties> subDuties, byte[] profilePhoto) {
         this.status = status;
         this.doneTaskCount = doneTaskCount;
