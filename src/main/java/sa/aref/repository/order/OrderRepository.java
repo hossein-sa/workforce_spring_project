@@ -9,12 +9,15 @@ import sa.aref.entity.order.Order;
 import sa.aref.entity.order.OrderStatus;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 
 public interface OrderRepository extends JpaRepository<Order, Integer> {
 
     List<Order> findAll();
+
+    Optional<Order> findById(Integer id);
 
     // Method for changing order status
     @Modifying

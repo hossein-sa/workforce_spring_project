@@ -8,6 +8,8 @@ import sa.aref.exception.CustomExceptionNotFound;
 import sa.aref.repository.accounts.ExpertRepository;
 import sa.aref.repository.duty.SubDutyRepository;
 
+import java.util.Optional;
+
 @Service
 public class SubDutyService {
     private final SubDutyRepository subDutyRepository;
@@ -62,6 +64,17 @@ public class SubDutyService {
         subDuties.setDescription(newDescription);
         return subDutyRepository.save(subDuties);
     }
+
+    public SubDuties findById(int id) {
+        Optional<SubDuties> subDuty = subDutyRepository.findById(id);
+        if (subDuty.isEmpty()) {
+            // handle not found exception
+            throw new CustomExceptionNotFound("SubDuty not found with id " + id);
+        }
+        return subDuty.get();
+    }
+
+
 
 //    public List<SubDuties> findByMainDutiesId(Long id) {
 //        return subDutyRepository.findByMainDutiesId(id);

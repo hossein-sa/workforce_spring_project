@@ -19,7 +19,7 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public List<Order> getAllOrders() {
         return orderService.getAllOrders();
     }
@@ -30,10 +30,6 @@ public class OrderController {
         return order.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping
-    public Order saveOrder(@RequestBody Order order) {
-        return orderService.saveOrder(order);
-    }
     @PutMapping("/{id}")
     public ResponseEntity<Order> updateOrder(@PathVariable int id, @RequestBody Order order) {
         Optional<Order> existingOrder = orderService.getOrderById(id);

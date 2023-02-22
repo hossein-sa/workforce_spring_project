@@ -1,20 +1,26 @@
 package sa.aref.service.order;
 
 import org.springframework.stereotype.Service;
+import sa.aref.entity.accounts.ClientAccount;
 import sa.aref.entity.order.Order;
 import sa.aref.entity.order.OrderStatus;
 import sa.aref.exception.CustomExceptionNotFound;
+import sa.aref.repository.accounts.ClientRepository;
 import sa.aref.repository.order.OrderRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class OrderService {
     private final OrderRepository orderRepository;
+    private final ClientRepository clientRepository;
 
-    public OrderService(OrderRepository orderRepository) {
+
+    public OrderService(OrderRepository orderRepository, ClientRepository clientRepository) {
         this.orderRepository = orderRepository;
+        this.clientRepository = clientRepository;
     }
 
     public List<Order> getAllOrders() {
@@ -25,9 +31,17 @@ public class OrderService {
         return orderRepository.findById(id);
     }
 
-    public Order saveOrder(Order order) {
+
+
+    public Order sendOrder(Order order, Integer clientId) {
+        ClientAccount client = clientRepository.findById(Long.valueOf(clientId))
+                .orElseThrow(() -> new CustomExceptionNotFound("Client not found with id: " + clientId));
+        order.setClientAccount(client);
+        order.setDutyRequestTime(LocalDateTime.now());
+        order.setOrderStatus(OrderStatus.PENDING_CANDIDATE);
         return orderRepository.save(order);
     }
+
     public Order updateOrder(Order order) {
         Optional<Order> existingOrder = orderRepository.findById(order.getId());
         if (existingOrder.isPresent()) {
