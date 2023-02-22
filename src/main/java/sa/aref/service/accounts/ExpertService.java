@@ -2,7 +2,9 @@ package sa.aref.service.accounts;
 
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import sa.aref.dto.ChangeStatusExpertDto;
 import sa.aref.entity.accounts.ExpertAccount;
+import sa.aref.entity.accounts.StatusExpert;
 import sa.aref.exception.CustomExceptionInvalid;
 import sa.aref.exception.CustomExceptionIsExist;
 import sa.aref.exception.CustomExceptionNotFound;
@@ -12,6 +14,7 @@ import sa.aref.utils.FileUtil;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.List;
 
 @Service
 public class ExpertService {
@@ -23,7 +26,7 @@ public class ExpertService {
 
     @Transactional
     public void register(ExpertAccount expertAccount) throws CustomExceptionIsExist {
-        if(expertRepository.findByEmail(expertAccount.getEmail()).isPresent()) {
+        if (expertRepository.findByEmail(expertAccount.getEmail()).isPresent()) {
             throw new CustomExceptionIsExist("Email already exists");
         }
 
@@ -48,6 +51,17 @@ public class ExpertService {
         String photoPath = "C:/profiles/" + id + ".jpg";
         File photoFile = FileUtil.fileWriter(Path.of(photoPath), photoBytes);
         expertAccount.setProfilePhoto(FileUtil.imageConverter(photoFile));
+        expertRepository.save(expertAccount);
+    }
+
+    public List<ExpertAccount> findByStatus(StatusExpert status) {
+        return expertRepository.findByStatus(status);
+    }
+
+    public void changeExpertStatus(ChangeStatusExpertDto changeStatusExpertDto) {
+        ExpertAccount expertAccount = expertRepository.findById(changeStatusExpertDto.getId())
+                .orElseThrow(() -> new CustomExceptionNotFound("ExpertAccount not found with id: " + changeStatusExpertDto.getId()));
+        expertAccount.setStatus(changeStatusExpertDto.getStatus());
         expertRepository.save(expertAccount);
     }
 

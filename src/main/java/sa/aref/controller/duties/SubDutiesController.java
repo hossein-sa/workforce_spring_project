@@ -34,15 +34,27 @@ public class SubDutiesController {
         return ResponseEntity.ok("OK");
     }
 
-    @PostMapping("/{subDutiesId}/expert/{expertId}")
+    @PostMapping("/add/{subDutiesId}/expert/{expertId}")
     public ResponseEntity<SubDuties> addExpertToSubDuties(@PathVariable Integer subDutiesId, @PathVariable Integer expertId) {
         SubDuties subDuties = subDutyService.addExpertToSubDuties(subDutiesId, expertId);
         return new ResponseEntity<>(subDuties, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{subDutiesId}/expert/{expertId}")
+    @DeleteMapping("/remove/{subDutiesId}/expert/{expertId}")
     public ResponseEntity<SubDuties> removeExpertFromSubDuties(@PathVariable Integer subDutiesId, @PathVariable Integer expertId) {
         SubDuties subDuties = subDutyService.removeExpertOfSubDuties(subDutiesId, expertId);
+        return ResponseEntity.ok(subDuties);
+    }
+
+    @PutMapping("/edit-price/{subDutiesId}/price")
+    public ResponseEntity<SubDuties> editSubDutyPrice(@PathVariable Integer subDutiesId, @RequestParam Long newPrice) {
+        SubDuties subDuties = subDutyService.editSubDutyPrice(subDutiesId, newPrice);
+        return ResponseEntity.ok(subDuties);
+    }
+
+    @PutMapping("/edit-description/{subDutiesId}/description")
+    public ResponseEntity<SubDuties> editSubDutyDescription(@PathVariable Integer subDutiesId, @RequestParam String newDescription) {
+        SubDuties subDuties = subDutyService.editSubDutyDescription(subDutiesId, newDescription);
         return ResponseEntity.ok(subDuties);
     }
 

@@ -49,6 +49,20 @@ public class SubDutyService {
         return subDuties;
     }
 
+    public SubDuties editSubDutyPrice(Integer subDutiesId, Long newPrice) {
+        SubDuties subDuties = subDutyRepository.findById(subDutiesId)
+                .orElseThrow(() -> new CustomExceptionNotFound("SubDuties not found with id: " + subDutiesId));
+        subDuties.setPrice(newPrice);
+        return subDutyRepository.save(subDuties);
+    }
+
+    public SubDuties editSubDutyDescription(Integer subDutiesId, String newDescription) {
+        SubDuties subDuties = subDutyRepository.findById(subDutiesId)
+                .orElseThrow(() -> new CustomExceptionNotFound("SubDuties not found with id: " + subDutiesId));
+        subDuties.setDescription(newDescription);
+        return subDutyRepository.save(subDuties);
+    }
+
 //    public List<SubDuties> findByMainDutiesId(Long id) {
 //        return subDutyRepository.findByMainDutiesId(id);
 //    }
