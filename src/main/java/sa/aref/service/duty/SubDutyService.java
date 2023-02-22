@@ -39,6 +39,16 @@ public class SubDutyService {
         return subDuties;
     }
 
+    public SubDuties removeExpertOfSubDuties(Integer subDutiesId, Integer expertId) {
+        SubDuties subDuties = subDutyRepository.findById(subDutiesId)
+                .orElseThrow(() -> new CustomExceptionNotFound("SubDuties not found with id: " + subDutiesId));
+        ExpertAccount expert = expertRepository.findById(expertId)
+                .orElseThrow(() -> new CustomExceptionNotFound("ExpertAccount not found with id: " + expertId));
+        subDuties.getExpertAccounts().remove(expert);
+        subDutyRepository.save(subDuties);
+        return subDuties;
+    }
+
 //    public List<SubDuties> findByMainDutiesId(Long id) {
 //        return subDutyRepository.findByMainDutiesId(id);
 //    }
