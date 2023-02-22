@@ -29,13 +29,14 @@ public class SubDutyService {
         subDutyRepository.save(subDuty);
     }
 
-    public void addExpertToSubDuties(Integer subDutiesId, Integer expertId) {
+    public SubDuties addExpertToSubDuties(Integer subDutiesId, Integer expertId) {
         SubDuties subDuties = subDutyRepository.findById(subDutiesId)
                 .orElseThrow(() -> new CustomExceptionNotFound("SubDuties not found with id: " + subDutiesId));
         ExpertAccount expert = expertRepository.findById(expertId)
                 .orElseThrow(() -> new CustomExceptionNotFound("ExpertAccount not found with id: " + expertId));
         subDuties.getExpertAccounts().add(expert);
         subDutyRepository.save(subDuties);
+        return subDuties;
     }
 
 //    public List<SubDuties> findByMainDutiesId(Long id) {

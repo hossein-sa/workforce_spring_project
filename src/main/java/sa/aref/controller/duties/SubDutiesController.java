@@ -1,9 +1,8 @@
 package sa.aref.controller.duties;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import sa.aref.dto.SubDutyDto;
 import sa.aref.entity.duties.MainDuties;
 import sa.aref.entity.duties.SubDuties;
@@ -24,7 +23,7 @@ public class SubDutiesController {
     }
 
     @PostMapping("/new")
-    public String addNewSubDuty(@RequestBody SubDutyDto subDutyDto) {
+    public ResponseEntity<String> addNewSubDuty(@RequestBody SubDutyDto subDutyDto) {
         Optional<MainDuties> mainDuties = mainDutyService.findById(subDutyDto.getMainDutyId());
         subDutyService.addSubDuty(SubDuties.builder()
                 .name(subDutyDto.getName())
@@ -32,7 +31,13 @@ public class SubDutiesController {
                 .price(subDutyDto.getPrice())
                 .description(subDutyDto.getDescription())
                 .build());
-        return "OK";
+        return ResponseEntity.ok("OK");
+    }
+
+    @PostMapping("/{subDutiesId}/expert/{expertId}")
+    public ResponseEntity<SubDuties> addExpertToSubDuties(@PathVariable Integer subDutiesId, @PathVariable Integer expertId) {
+        SubDuties subDuties = subDutyService.addExpertToSubDuties(subDutiesId, expertId);
+        return new ResponseEntity<>(subDuties, HttpStatus.OK);
     }
 
 }
