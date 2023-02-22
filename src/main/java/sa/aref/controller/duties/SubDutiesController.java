@@ -40,6 +40,13 @@ public class SubDutiesController {
         return new ResponseEntity<>(subDuties, HttpStatus.OK);
     }
 
+    @DeleteMapping("/{subDutiesId}/expert/{expertId}")
+    public ResponseEntity<SubDuties> removeExpertFromSubDuties(@PathVariable Integer subDutiesId, @PathVariable Integer expertId) {
+        SubDuties subDuties = subDutyService.removeExpertOfSubDuties(subDutiesId, expertId);
+        return ResponseEntity.ok(subDuties);
+    }
+
+
 }
 
 
