@@ -2,15 +2,18 @@ package ir.hsadehi.HomeServices.service;
 
 import ir.hsadehi.HomeServices.model.Admin;
 import ir.hsadehi.HomeServices.model.Customer;
+import ir.hsadehi.HomeServices.model.dtos.ChangePasswordRequest;
 import ir.hsadehi.HomeServices.model.dtos.RegistrationRequest;
 import ir.hsadehi.HomeServices.model.Specialist;
 import ir.hsadehi.HomeServices.model.User;
 import ir.hsadehi.HomeServices.model.dtos.UserDTO;
 import ir.hsadehi.HomeServices.model.enums.UserRole;
 import ir.hsadehi.HomeServices.repository.UserRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import jakarta.annotation.PostConstruct;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -111,6 +114,25 @@ public class UserService {
         dto.setEmail(user.getEmail());
         dto.setRole(user.getRole().toString()); // Convert enum to String
         return dto;
+    }
+
+
+    public String changePassword(String email, ChangePasswordRequest request) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found!"));
+
+        // check if old password is correct
+        if (!passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Old password is incorrect!");
+        }
+
+        // Hash the new password
+        String hashedNewPassword = passwordEncoder.encode(request.getNewPassword());
+        user.setPassword(hashedNewPassword);
+
+        // save the updated password
+        userRepository.save(user);
+        return "Password changed successfully!";
     }
 
 }
