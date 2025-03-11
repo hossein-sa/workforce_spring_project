@@ -2,10 +2,8 @@ package ir.hsadehi.HomeServices.controller;
 
 import ir.hsadehi.HomeServices.model.dtos.PlaceOrderRequest;
 import ir.hsadehi.HomeServices.model.dtos.ProposalDTO;
-import ir.hsadehi.HomeServices.service.OrderService;
-import ir.hsadehi.HomeServices.service.PaymentService;
-import ir.hsadehi.HomeServices.service.ProposalService;
-import ir.hsadehi.HomeServices.service.UserService;
+import ir.hsadehi.HomeServices.model.dtos.ReviewDTO;
+import ir.hsadehi.HomeServices.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -21,6 +19,7 @@ public class OrderController {
     private final ProposalService proposalService;
     private final UserService userService;
     private final PaymentService paymentService;
+    private final ReviewService reviewService;
 
 
     @PostMapping("/create")
@@ -84,6 +83,17 @@ public class OrderController {
         String response = paymentService.processPayment(customerId, orderId, isOnlinePayment);
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping("/{orderId}/review")
+    public ResponseEntity<String> submitReview(
+            Authentication authentication,
+            @PathVariable Long orderId,
+            @RequestBody ReviewDTO reviewDTO) {
+        String customerEmail = authentication.getName();
+        String response = reviewService.submitReview(customerEmail, orderId, reviewDTO);
+        return ResponseEntity.ok(response);
+    }
+
 
 
 

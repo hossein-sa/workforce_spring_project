@@ -2,10 +2,8 @@ package ir.hsadehi.HomeServices.controller;
 
 import ir.hsadehi.HomeServices.model.dtos.CompleteProfileRequest;
 import ir.hsadehi.HomeServices.model.dtos.OrderResponseDTO;
-import ir.hsadehi.HomeServices.service.OrderService;
-import ir.hsadehi.HomeServices.service.ProposalService;
-import ir.hsadehi.HomeServices.service.SpecialistService;
-import ir.hsadehi.HomeServices.service.UserService;
+import ir.hsadehi.HomeServices.model.dtos.ReviewDTO;
+import ir.hsadehi.HomeServices.service.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -19,12 +17,14 @@ public class SpecialistController {
     private final UserService userService;
     private final OrderService orderService;
     private final ProposalService proposalService;
+    private final ReviewService reviewService;
 
-    public SpecialistController(SpecialistService specialistService, UserService userService, OrderService orderService, ProposalService proposalService) {
+    public SpecialistController(SpecialistService specialistService, UserService userService, OrderService orderService, ProposalService proposalService, ReviewService reviewService) {
         this.specialistService = specialistService;
         this.userService = userService;
         this.orderService = orderService;
         this.proposalService = proposalService;
+        this.reviewService = reviewService;
     }
 
     // ✅ Specialists choose their expertise
@@ -61,5 +61,12 @@ public class SpecialistController {
         String specialistEmail = authentication.getName();
         String response = proposalService.submitProposal(specialistEmail, orderId, proposedPrice, estimatedDuration);
         return ResponseEntity.ok(response);
+    }
+
+    // ✅ Specialists view their received reviews
+    @GetMapping("/{specialistId}/reviews")
+    public ResponseEntity<List<ReviewDTO>> getSpecialistReviews(@PathVariable Long specialistId) {
+        List<ReviewDTO> reviews = reviewService.getReviewsForSpecialist(specialistId);
+        return ResponseEntity.ok(reviews);
     }
 }
