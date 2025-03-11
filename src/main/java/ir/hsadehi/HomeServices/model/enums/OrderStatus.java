@@ -1,0 +1,6 @@
+package ir.hsadehi.HomeServices.model.enums;
+
+public enum OrderStatus {
+    WAITING_FOR_PROPOSALS, WAITING_FOR_SPECIALIST_SELECTION, WAITING_FOR_SPECIALIST_ARRIVAL,
+    STARTED, COMPLETED, PAID
+}
