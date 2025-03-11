@@ -95,6 +95,32 @@ public class OrderService {
         return "Order has been started successfully!";
     }
 
+    public String completeOrder(Long specialistId, Long orderId) {
+        // Find the order
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found!"));
+
+        // Ensure the specialist assigned to this order is the one completing it
+        Proposal acceptedProposal = proposalRepository.findByOrder(order)
+                .orElseThrow(() -> new RuntimeException("No accepted proposal for this order!"));
+
+        if (!acceptedProposal.getSpecialist().getId().equals(specialistId)) {
+            throw new RuntimeException("You are not assigned to this order!");
+        }
+
+        // Ensure the order is in the correct state
+        if (order.getStatus() != OrderStatus.STARTED) {
+            throw new RuntimeException("Order is not in progress and cannot be completed!");
+        }
+
+        // Mark order as completed
+        order.setStatus(OrderStatus.COMPLETED);
+        orderRepository.save(order);
+
+        return "Order has been marked as completed!";
+    }
+
+
 
 
 

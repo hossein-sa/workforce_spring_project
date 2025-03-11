@@ -17,5 +17,7 @@ public interface ProposalRepository extends JpaRepository<Proposal, Long> {
     List<Proposal> findByOrder_IdAndOrder_Customer_Id(Long orderId, Long customerId);
     Optional<Proposal> findByOrderAndOrder_Status(Order order, OrderStatus status);
 
+    Optional<Proposal> findByOrder(Order order);
+    Optional<Proposal> findByOrderId(Long orderId);
 }
 

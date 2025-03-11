@@ -16,6 +16,7 @@ public class Specialist extends User {
 
     private double rating = 0.0;
     private String profilePictureUrl;
+    private double balance = 0.0;
 
     @ManyToMany
     @JoinTable(
