@@ -3,6 +3,7 @@ package ir.hsadehi.HomeServices.service;
 import ir.hsadehi.HomeServices.model.Admin;
 import ir.hsadehi.HomeServices.model.Customer;
 import ir.hsadehi.HomeServices.model.dtos.ChangePasswordRequest;
+import ir.hsadehi.HomeServices.model.dtos.CompleteProfileRequest;
 import ir.hsadehi.HomeServices.model.dtos.RegistrationRequest;
 import ir.hsadehi.HomeServices.model.Specialist;
 import ir.hsadehi.HomeServices.model.User;
@@ -136,6 +137,30 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public String completeSpecialistProfile(String email, CompleteProfileRequest request) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found!"));
+
+        if (!(user instanceof Specialist)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Only specialists can complete a profile!");
+        }
+
+        Specialist specialist = (Specialist) user;
+
+        if (!specialist.getStatus().equals(SpecialistStatus.NEW)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Profile update not allowed at this stage.");
+        }
+
+
+        // ✅ Set profile picture
+        specialist.setProfilePictureUrl(request.getProfilePictureUrl());
+
+        // ✅ Change status to PENDING_APPROVAL
+        specialist.setStatus(SpecialistStatus.PENDING_APPROVAL);
+
+        userRepository.save(specialist);
+        return "Profile completed! Your account is now pending admin approval.";
+    }
 
 
 }

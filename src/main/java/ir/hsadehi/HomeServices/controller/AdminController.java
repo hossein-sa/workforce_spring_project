@@ -63,7 +63,7 @@ public class AdminController {
     @PutMapping("/specialist/status/{specialistId}")
     public ResponseEntity<String> updateSpecialistStatus(
             @PathVariable("specialistId") Long specialistId,
-            @RequestParam SpecialistStatus status) {
+            @RequestBody SpecialistStatus status) {
         String response = specialistService.updateSpecialistStatus(specialistId, status);
         return ResponseEntity.ok(response);
     }
