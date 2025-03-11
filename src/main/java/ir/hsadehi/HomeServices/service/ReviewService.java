@@ -19,12 +19,14 @@ public class ReviewService {
     private final UserRepository userRepository;
     private final OrderRepository orderRepository;
     private final ProposalRepository proposalRepository;
+    private final SpecialistService specialistService;
 
-    public ReviewService(ReviewRepository reviewRepository, UserRepository userRepository, OrderRepository orderRepository, ProposalRepository proposalRepository) {
+    public ReviewService(ReviewRepository reviewRepository, UserRepository userRepository, OrderRepository orderRepository, ProposalRepository proposalRepository, SpecialistService specialistService) {
         this.reviewRepository = reviewRepository;
         this.userRepository = userRepository;
         this.orderRepository = orderRepository;
         this.proposalRepository = proposalRepository;
+        this.specialistService = specialistService;
     }
 
     // ✅ Submit a Review
@@ -43,17 +45,22 @@ public class ReviewService {
             throw new RuntimeException("You can only review completed orders.");
         }
 
-        // ✅ Retrieve the accepted proposal (assigned specialist)
+        // ✅ Retrieve the assigned specialist from the accepted proposal
         Proposal acceptedProposal = proposalRepository.findByOrderAndAcceptedTrue(order)
                 .orElseThrow(() -> new RuntimeException("No accepted proposal found for this order!"));
 
         Specialist specialist = acceptedProposal.getSpecialist();
 
+        // ✅ Save new review
         Review review = new Review(customer, specialist, reviewDTO.getRating(), reviewDTO.getComment());
         reviewRepository.save(review);
 
+        // ✅ Recalculate specialist rating after review submission
+        specialistService.updateSpecialistRating(specialist.getId());
+
         return "Review submitted successfully!";
     }
+
 
 
     // ✅ View Reviews for a Specialist

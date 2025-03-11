@@ -4,6 +4,7 @@ import ir.hsadehi.HomeServices.model.*;
 import ir.hsadehi.HomeServices.model.dtos.OrderResponseDTO;
 import ir.hsadehi.HomeServices.model.dtos.PlaceOrderRequest;
 import ir.hsadehi.HomeServices.model.enums.OrderStatus;
+import ir.hsadehi.HomeServices.model.enums.SpecialistStatus;
 import ir.hsadehi.HomeServices.repository.OrderRepository;
 import ir.hsadehi.HomeServices.repository.ProposalRepository;
 import ir.hsadehi.HomeServices.repository.SubServiceRepository;
@@ -46,18 +47,17 @@ public class OrderService {
     }
 
     public List<OrderResponseDTO> getAvailableOrdersForSpecialist(String specialistEmail) {
-        // 🔹 Find the specialist
         Specialist specialist = (Specialist) userRepository.findByEmail(specialistEmail)
                 .orElseThrow(() -> new RuntimeException("Specialist not found!"));
 
-        // ✅ Convert Set<SubService> to List<SubService>
+        // ✅ Block specialists with status PENDING_APPROVAL
+        if (specialist.getStatus() == SpecialistStatus.PENDING_APPROVAL) {
+            throw new RuntimeException("Your account is under review. You cannot view orders.");
+        }
+
         List<SubService> specialistServices = new ArrayList<>(specialist.getServices());
+        List<Order> availableOrders = orderRepository.findBySubServiceInAndStatus(specialistServices, OrderStatus.WAITING_FOR_PROPOSALS);
 
-        // 🔹 Find available orders that match the specialist's sub-services
-        List<Order> availableOrders = orderRepository.findBySubServiceInAndStatus(
-                specialistServices, OrderStatus.WAITING_FOR_PROPOSALS);
-
-        // 🔹 Convert to DTOs
         return availableOrders.stream()
                 .map(order -> new OrderResponseDTO(
                         order.getId(),
@@ -69,6 +69,7 @@ public class OrderService {
                 ))
                 .toList();
     }
+
 
 
     public String startOrder(Long specialistId, Long orderId) {
