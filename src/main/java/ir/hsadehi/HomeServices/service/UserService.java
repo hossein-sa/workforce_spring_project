@@ -162,5 +162,13 @@ public class UserService {
         return "Profile completed! Your account is now pending admin approval.";
     }
 
+    public Long getUserIdByEmail(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
+
+        return user.getId();
+    }
+
+
 
 }

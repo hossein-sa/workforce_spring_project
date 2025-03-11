@@ -28,6 +28,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/specialist/**").hasAuthority("SPECIALIST") // Only specialists
                         .requestMatchers("/api/users/register", "/api/users/login").permitAll() // Allow login & register
                         .requestMatchers("/api/users/change-password").authenticated() // Only authenticated users
+                        .requestMatchers("/api/orders/**").hasAuthority("CUSTOMER")
                         .anyRequest().authenticated() // Require authentication for everything else
                 )
                 .httpBasic(Customizer.withDefaults()); // Use basic authentication for now (JWT can be added later)
