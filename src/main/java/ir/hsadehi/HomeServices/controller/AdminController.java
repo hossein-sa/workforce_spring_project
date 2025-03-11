@@ -1,11 +1,9 @@
 package ir.hsadehi.HomeServices.controller;
 
 import ir.hsadehi.HomeServices.model.MainService;
-import ir.hsadehi.HomeServices.model.dtos.CreateMainServiceRequest;
-import ir.hsadehi.HomeServices.model.dtos.CreateSubServiceRequest;
-import ir.hsadehi.HomeServices.model.dtos.MainServiceDTO;
-import ir.hsadehi.HomeServices.model.dtos.UserDTO;
+import ir.hsadehi.HomeServices.model.dtos.*;
 import ir.hsadehi.HomeServices.service.MainServiceService;
+import ir.hsadehi.HomeServices.service.SpecialistService;
 import ir.hsadehi.HomeServices.service.SubServiceService;
 import ir.hsadehi.HomeServices.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +19,7 @@ public class AdminController {
     private final MainServiceService mainServiceService;
     private final SubServiceService subServiceService;
     private final UserService userService;
+    private final SpecialistService specialistService;
 
     // ** Add MainService (Admin Only)
     @PostMapping("/main-service")
@@ -46,5 +45,17 @@ public class AdminController {
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         List<UserDTO> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
+    }
+
+    @PostMapping("/specialist/assign")
+    public ResponseEntity<String> assignSpecialistToSubService(@RequestBody AssignSpecialistRequest request) {
+        String response = specialistService.assignSpecialistToSubService(request.getSpecialistId(), request.getSubServiceId());
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/specialist/remove")
+    public ResponseEntity<String> removeSpecialistFromSubService(@RequestBody AssignSpecialistRequest request) {
+        String response = specialistService.removeSpecialistFromSubService(request.getSpecialistId(), request.getSubServiceId());
+        return ResponseEntity.ok(response);
     }
 }
