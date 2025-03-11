@@ -2,6 +2,7 @@ package ir.hsadehi.HomeServices.controller;
 
 import ir.hsadehi.HomeServices.model.MainService;
 import ir.hsadehi.HomeServices.model.dtos.*;
+import ir.hsadehi.HomeServices.model.enums.SpecialistStatus;
 import ir.hsadehi.HomeServices.service.MainServiceService;
 import ir.hsadehi.HomeServices.service.SpecialistService;
 import ir.hsadehi.HomeServices.service.SubServiceService;
@@ -58,4 +59,13 @@ public class AdminController {
         String response = specialistService.removeSpecialistFromSubService(request.getSpecialistId(), request.getSubServiceId());
         return ResponseEntity.ok(response);
     }
+
+    @PutMapping("/specialist/status/{specialistId}")
+    public ResponseEntity<String> updateSpecialistStatus(
+            @PathVariable("specialistId") Long specialistId,
+            @RequestParam SpecialistStatus status) {
+        String response = specialistService.updateSpecialistStatus(specialistId, status);
+        return ResponseEntity.ok(response);
+    }
+
 }

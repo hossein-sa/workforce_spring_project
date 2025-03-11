@@ -2,6 +2,7 @@ package ir.hsadehi.HomeServices.service;
 
 import ir.hsadehi.HomeServices.model.Specialist;
 import ir.hsadehi.HomeServices.model.SubService;
+import ir.hsadehi.HomeServices.model.enums.SpecialistStatus;
 import ir.hsadehi.HomeServices.repository.SpecialistRepository;
 import ir.hsadehi.HomeServices.repository.SubServiceRepository;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +36,13 @@ public class SpecialistService {
     public String assignSpecialistToSubService(Long specialistId, Long subServiceId) {
         Specialist specialist = specialistRepository.findById(specialistId).orElseThrow(() -> new RuntimeException("Specialist not found"));
 
+
+        if (specialist.getStatus() != SpecialistStatus.APPROVED) {
+            return "Specialist must be approved before being assigned a service.";
+        }
+
         SubService subService = subServiceRepository.findById(subServiceId).orElseThrow(() -> new RuntimeException("SubService not found"));
+
 
         if (specialist.getServices().contains(subService)) {
             return "Specialist is already assigned to this service";
@@ -59,5 +66,15 @@ public class SpecialistService {
         specialist.getServices().remove(subService);
         specialistRepository.save(specialist);
         return "Specialist removed from the sub-service successfully";
+    }
+
+    @Transactional
+    public String updateSpecialistStatus(Long specialistId, SpecialistStatus status) {
+        Specialist specialist = specialistRepository.findById(specialistId).orElseThrow(() -> new RuntimeException("Specialist not found"));
+
+        specialist.setStatus(status);
+        specialistRepository.save(specialist);
+
+        return "Specialist status updated to: " + status;
     }
 }

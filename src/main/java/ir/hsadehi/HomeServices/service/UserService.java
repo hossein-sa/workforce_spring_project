@@ -7,6 +7,7 @@ import ir.hsadehi.HomeServices.model.dtos.RegistrationRequest;
 import ir.hsadehi.HomeServices.model.Specialist;
 import ir.hsadehi.HomeServices.model.User;
 import ir.hsadehi.HomeServices.model.dtos.UserDTO;
+import ir.hsadehi.HomeServices.model.enums.SpecialistStatus;
 import ir.hsadehi.HomeServices.model.enums.UserRole;
 import ir.hsadehi.HomeServices.repository.UserRepository;
 import org.springframework.http.HttpStatus;
@@ -68,6 +69,7 @@ public class UserService {
             case SPECIALIST:
                 Specialist specialist = new Specialist();
                 specialist.setRating(0.0);
+                specialist.setStatus(SpecialistStatus.NEW);
                 user = specialist;
                 break;
             default:
@@ -117,7 +119,7 @@ public class UserService {
     }
 
 
-    public String changePassword(String email, ChangePasswordRequest request) {
+    public void changePassword(String email, ChangePasswordRequest request) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found!"));
 
@@ -132,7 +134,8 @@ public class UserService {
 
         // save the updated password
         userRepository.save(user);
-        return "Password changed successfully!";
     }
+
+
 
 }
